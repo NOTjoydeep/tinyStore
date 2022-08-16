@@ -1,6 +1,8 @@
 from asyncio.windows_events import NULL
+from re import M
 from statistics import mode
 from django.db import models
+from django.core.validators import MinValueValidator
 
 # Create your models here.
 class Promotion(models.Model): # many to many relation
@@ -24,13 +26,17 @@ class Collection(models.Model):
 
 class Product(models.Model):
     title = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     slug = models.SlugField()
-    unit_price = models.DecimalField(max_digits=6, decimal_places=2)
-    inventory = models.IntegerField()
+    unit_price = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        validators=[MinValueValidator(1)]
+    )
+    inventory = models.IntegerField(validators=[MinValueValidator(1)])
     last_update = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey(Collection, on_delete=models.PROTECT)
-    promotions = models.ManyToManyField(Promotion) # related_name = 'var_name'
+    promotions = models.ManyToManyField(Promotion, blank=True) # related_name = 'var_name'
 
     def __str__(self) -> str:
         # return super().__str__()
