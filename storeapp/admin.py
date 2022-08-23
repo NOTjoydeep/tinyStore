@@ -65,15 +65,16 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(models.Collection)
 class CollectionAdmin(admin.ModelAdmin):
-    list_display = ['title', 'product_count']
+    autocomplete_fields = ['featured_product']
+    list_display = ['title', 'products_count']
     search_fields = ['title']
 
     # @admin.display(ordering='product_count')
     # def product_count(self, collection):
     #     return collection.product_count
 
-    @admin.display(ordering='product_count')
-    def product_count(self, collection):
+    @admin.display(ordering='products_count')
+    def products_count(self, collection):
         # reverse('admin:app_model_page')
         url = (
             reverse('admin:storeapp_product_changelist')
@@ -83,11 +84,11 @@ class CollectionAdmin(admin.ModelAdmin):
             })
         )
         # print(url)
-        return format_html('<a href="{}">{}</a>', url, collection.product_count)
+        return format_html('<a href="{}">{} Products</a>', url, collection.products_count)
 
     def get_queryset(self, request):
         return super().get_queryset(request).annotate(
-            product_count = Count('product')
+            products_count = Count('products')
         )
 
 @admin.register(models.Customer)
