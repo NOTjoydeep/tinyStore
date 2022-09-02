@@ -1,7 +1,7 @@
 # from dataclasses import field
-from dataclasses import fields
+# from dataclasses import fields
 from decimal import Decimal
-from pyexpat import model
+# from pyexpat import model
 # from unittest.util import _MAX_LENGTH
 from storeapp.models import Cart, CartItem, Product, Collection, Review
 from rest_framework import serializers
