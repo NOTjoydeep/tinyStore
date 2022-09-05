@@ -3,7 +3,7 @@
 from decimal import Decimal
 # from pyexpat import model
 # from unittest.util import _MAX_LENGTH
-from storeapp.models import Cart, CartItem, Product, Collection, Review
+from storeapp.models import Cart, CartItem, Customer, Product, Collection, Review
 from rest_framework import serializers
 
 
@@ -157,6 +157,20 @@ class UpdateCartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
         fields = ['quantity']
+
+
+class CustomerSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField(read_only=True)
+    
+    class Meta:
+        model = Customer
+        fields = [
+            'id',
+            'user_id',
+            'phone',
+            'birth_date',
+            'membership'
+        ]
 
 
 
