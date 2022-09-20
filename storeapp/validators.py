@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 
 
 def validate_file_size(file):
-    max_size_kb = 100
+    max_size_kb = 2000
 
     if file.size > max_size_kb * 1024:
         raise ValidationError(f'Files cannot be larget than {max_size_kb}KB!')

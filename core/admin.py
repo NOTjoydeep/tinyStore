@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericStackedInline
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from storeapp.admin import ProductAdmin
+from storeapp.admin import ProductAdmin, ProductImageInline
 from storeapp.models import Product
 from tags.models import TaggedItem
 from .models import User
@@ -26,7 +26,7 @@ class TagInline(GenericStackedInline):
 
 
 class CustomProductAdmin(ProductAdmin):
-    inlines = [TagInline]
+    inlines = [TagInline, ProductImageInline]
 
 admin.site.unregister(Product)
 admin.site.register(Product, CustomProductAdmin)
