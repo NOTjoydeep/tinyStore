@@ -13,6 +13,11 @@ django-filter = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
 pillow = "*"
+django-cors-headers = "*"
+setuptools = "*"
+mysql-connector-python = "*"
+mysql = "*"
+pywin32 = "*"
 
 [dev-packages]
 
