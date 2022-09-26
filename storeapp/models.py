@@ -1,4 +1,4 @@
-from asyncio.windows_events import NULL
+# from asyncio.windows_events import NULL
 from distutils.command.upload import upload
 from itertools import product
 # from itertools import product
@@ -138,7 +138,7 @@ class OrderItem(models.Model):
 
 class Address(models.Model):
     street = models.CharField(max_length=255)
-    zip_code = models.PositiveIntegerField(default=NULL)
+    zip_code = models.PositiveIntegerField(default=None)
     city = models.CharField(max_length=255)
 
     # # one to one relationship, one customer has one address

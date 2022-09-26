@@ -103,7 +103,7 @@ DATABASES = {
         'NAME': 'store3',
         'HOST': 'localhost',
         'USER': 'root',
-        'PASSWORD': 'admin'
+        'PASSWORD': 'Admin@123'
     }
 }
 
