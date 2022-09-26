@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 django = "*"
 django-debug-toolbar = "*"
-mysqlclient = "*"
 djangorestframework = "*"
 drf-nested-routers = "*"
 django-filter = "*"
@@ -14,10 +13,7 @@ djoser = "*"
 djangorestframework-simplejwt = "*"
 pillow = "*"
 django-cors-headers = "*"
-setuptools = "*"
-mysql-connector-python = "*"
-mysql = "*"
-pywin32 = "*"
+mysqlclient = "*"
 
 [dev-packages]
 

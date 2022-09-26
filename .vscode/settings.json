@@ -1,4 +1,5 @@
 {
     "editor.fontSize": 20,
+    "python.pythonPath": "/Users/notjoydeep/.local/share/virtualenvs/tinyStore_2-TVny3D1X/lib/python",
     "python.terminal.activateEnvironment": true
 }
