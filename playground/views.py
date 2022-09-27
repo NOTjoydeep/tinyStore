@@ -1,8 +1,9 @@
 # from itertools import product
 # from turtle import title
-from django.core.mail import mail_admins, send_mail, EmailMessage, BadHeaderError
+# from django.core.mail import mail_admins, send_mail, EmailMessage, BadHeaderError
 from django.shortcuts import render
-from templated_mail.mail import BaseEmailMessage
+from .tasks import notify_customers
+# from templated_mail.mail import BaseEmailMessage
 # from django.core.exceptions import ObjectDoesNotExist
 # from django.db import transaction, connection
 # from django.db.models import DecimalField, Q, F, Value, Func, ExpressionWrapper
@@ -18,19 +19,20 @@ from templated_mail.mail import BaseEmailMessage
 # action
 
 def first_response(request):
-    try:
-        # send_mail('subject', 'message', 'info@foobar.com', ['bob@foobar.com'])
-        # mail_admins('subject', 'message', html_message='message')
-        # message = EmailMessage('subject', 'message', 'admin@foobar.com', ['bob@foobar.com'])
-        # message.attach_file('playground/static/images/dog.jpg')
-        # message.send()
-        message = BaseEmailMessage(
-            template_name='emails/hello.html',
-            context = {'name': 'Lazy'}
-        )
-        message.send(['bob@foobar.com'])
-    except BadHeaderError:
-        pass
+    # try:
+    #     # send_mail('subject', 'message', 'info@foobar.com', ['bob@foobar.com'])
+    #     # mail_admins('subject', 'message', html_message='message')
+    #     # message = EmailMessage('subject', 'message', 'admin@foobar.com', ['bob@foobar.com'])
+    #     # message.attach_file('playground/static/images/dog.jpg')
+    #     # message.send()
+    #     message = BaseEmailMessage(
+    #         template_name='emails/hello.html',
+    #         context = {'name': 'Lazy'}
+    #     )
+    #     message.send(['bob@foobar.com'])
+    # except BadHeaderError:
+    #     pass
+    notify_customers.delay('Hello')
     return render(request, 'hello.html', {'name': 'Lazy'})
     # every model has an attribute 'object', which returns a manager, an interface to DB
     # manager has few methods to modify a query. all(), get(), count
