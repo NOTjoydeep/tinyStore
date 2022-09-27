@@ -1,14 +1,16 @@
-from itertools import product
-from turtle import title
+# from itertools import product
+# from turtle import title
+from django.core.mail import mail_admins, send_mail, EmailMessage, BadHeaderError
 from django.shortcuts import render
-from django.core.exceptions import ObjectDoesNotExist
-from django.db import transaction, connection
-from django.db.models import DecimalField, Q, F, Value, Func, ExpressionWrapper
-from django.db.models.functions import Concat
-from django.db.models.aggregates import Count, Max, Min, Avg, Sum
-from django.contrib.contenttypes.models import ContentType
-from storeapp.models import Product, Customer, Collection, Order, OrderItem, Cart, CartItem
-from tags.models import TaggedItem
+from templated_mail.mail import BaseEmailMessage
+# from django.core.exceptions import ObjectDoesNotExist
+# from django.db import transaction, connection
+# from django.db.models import DecimalField, Q, F, Value, Func, ExpressionWrapper
+# from django.db.models.functions import Concat
+# from django.db.models.aggregates import Count, Max, Min, Avg, Sum
+# from django.contrib.contenttypes.models import ContentType
+# from storeapp.models import Product, Customer, Collection, Order, OrderItem, Cart, CartItem
+# from tags.models import TaggedItem
 
 # Create your views here.
 # turns requests -> response
@@ -16,6 +18,20 @@ from tags.models import TaggedItem
 # action
 
 def first_response(request):
+    try:
+        # send_mail('subject', 'message', 'info@foobar.com', ['bob@foobar.com'])
+        # mail_admins('subject', 'message', html_message='message')
+        # message = EmailMessage('subject', 'message', 'admin@foobar.com', ['bob@foobar.com'])
+        # message.attach_file('playground/static/images/dog.jpg')
+        # message.send()
+        message = BaseEmailMessage(
+            template_name='emails/hello.html',
+            context = {'name': 'Lazy'}
+        )
+        message.send(['bob@foobar.com'])
+    except BadHeaderError:
+        pass
+    return render(request, 'hello.html', {'name': 'Lazy'})
     # every model has an attribute 'object', which returns a manager, an interface to DB
     # manager has few methods to modify a query. all(), get(), count
     #query_set = Product.objects.all() # returns a query set.
@@ -212,12 +228,12 @@ def first_response(request):
     # return render(request, 'hello.html', {'name' : 'LAZY', 'items' : item})
 
     # Raw Query
-    # raw_query = Product.objects.raw("SELET * FROM store_product")
-    with connection.cursor() as cursor:
-        cursor.execute("SELET * FROM store_product")
+    # # raw_query = Product.objects.raw("SELET * FROM store_product")
+    # with connection.cursor() as cursor:
+    #     cursor.execute("SELET * FROM store_product")
     # always close cursor.close()
 
-    return render(request, 'hello.html', {'name' : 'LAZY', 'result' : list(raw_query)})
+    # return render(request, 'hello.html', {'name' : 'LAZY', 'result' : list(raw_query)})
 
     # return HttpResponse('First Request processed.')
     # return render(request, 'hello.html', {'name' : 'LAZY', 'customers' : list(query_set)})
