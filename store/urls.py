@@ -23,6 +23,7 @@ admin.site.site_header = "Tinystore Admin"
 admin.site.index_title = "Admin Tab" 
 
 urlpatterns = [
+    path('', include('core.urls')),
     path('admin/', admin.site.urls),
     path('playground/', include('playground.urls')),
     path('store/', include('storeapp.urls')),
@@ -33,3 +34,7 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += [path('silk/', include('silk.urls', namespace='silk'))]
+
+
+
