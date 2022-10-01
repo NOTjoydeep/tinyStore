@@ -1,8 +1,14 @@
 # from itertools import product
 # from turtle import title
 # from django.core.mail import mail_admins, send_mail, EmailMessage, BadHeaderError
+# from django.core.cache import cache
 from django.shortcuts import render
-from .tasks import notify_customers
+# from django.utils.decorators import method_decorator
+# from django.views.decorators.cache import cache_page
+from rest_framework.views import APIView
+import requests
+import logging
+# from .tasks import notify_customers
 # from templated_mail.mail import BaseEmailMessage
 # from django.core.exceptions import ObjectDoesNotExist
 # from django.db import transaction, connection
@@ -18,7 +24,24 @@ from .tasks import notify_customers
 # request handler
 # action
 
-def first_response(request):
+logger = logging.getLogger(__name__)
+
+
+class HelloView(APIView):
+    # @method_decorator(cache_page(5*60))
+    def get(self, request):
+        try:
+            logger.info('Calling httpbin')
+            response = requests.get('https://httpbin.org/delay/2')
+            logger.info('Recived the response.')
+            data = response.json()
+        except requests.ConnectionError:
+            logger.critical('httpbin is offline')
+        return render(request, 'hello.html', {'name': data})
+        
+
+# @cache_page(5*60)
+# def first_response(request):
     # try:
     #     # send_mail('subject', 'message', 'info@foobar.com', ['bob@foobar.com'])
     #     # mail_admins('subject', 'message', html_message='message')
@@ -32,8 +55,13 @@ def first_response(request):
     #     message.send(['bob@foobar.com'])
     # except BadHeaderError:
     #     pass
-    notify_customers.delay('Hello')
-    return render(request, 'hello.html', {'name': 'Lazy'})
+    # notify_customers.delay('Hello')
+    # key = 'httpbin_request'
+    # if cache.get(key) is None:
+    # response = requests.get('https://httpbin.org/delay/2')
+    # data = response.json()
+    #     # cache.set(key, data)
+    # return render(request, 'hello.html', {'name': data})
     # every model has an attribute 'object', which returns a manager, an interface to DB
     # manager has few methods to modify a query. all(), get(), count
     #query_set = Product.objects.all() # returns a query set.
